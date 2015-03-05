@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sangfei.keyguard.unlock.KeyguardPhilipsView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/keyguard_philips_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.sangfei.keyguard.unlock.BackgroundAnimationView
+        android:id="@id/background_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:id="@+id/drag_layout_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffffff"
+        android:orientation="vertical" >
+
+        <com.sangfei.keyguard.unlock.PullUnlockView
+            android:id="@id/pull_unlock_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <include layout="@layout/keyguard_new_event_show" />
+        </com.sangfei.keyguard.unlock.PullUnlockView>
+
+        <RelativeLayout
+            android:id="@+id/drag_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/kg_unlock_drag_layout_height" >
+
+            <ImageView
+                android:id="@+id/lock_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12.0dip"
+                android:src="@drawable/sf_unlock_icon" />
+
+            <com.sangfei.keyguard.unlock.ShineTextView
+                android:id="@id/unlock_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="52.0dip"
+                android:alpha="0.8"
+                android:maxLines="1"
+                android:text="@string/unlock"
+                android:textColor="#ff000000"
+                android:textSize="24.0dip" />
+
+            <com.sangfei.keyguard.unlock.ShineTextView
+                android:id="@id/open_camera_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="52.0dip"
+                android:alpha="0.8"
+                android:maxLines="1"
+                android:text="@string/open_camera"
+                android:textColor="#ff000000"
+                android:textSize="24.0dip"
+                android:visibility="gone" />
+
+            <com.android.keyguard.MediatekCarrierText
+                android:id="@id/carrier_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="82.0dip"
+                android:alpha="0.6"
+                android:orientation="horizontal"
+                android:textColor="#ff000000"
+                android:textSize="16.0dip" />
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="6.0dip"
+                android:src="@drawable/sf_unlock_down" />
+
+            <com.sangfei.keyguard.unlock.NewEventNumView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20.0dip" >
+
+                <TextView
+                    android:id="@id/new_event_num"
+                    android:layout_width="20.0dip"
+                    android:layout_height="20.0dip"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/sf_unread_event_num_bg"
+                    android:gravity="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="12.0dip" />
+            </com.sangfei.keyguard.unlock.NewEventNumView>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/camera_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="640.0dip"
+            android:background="@drawable/keyguard_camera_bg" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100.0dip"
+                android:scaleType="center"
+                android:src="@drawable/sf_ic_camera" />
+        </FrameLayout>
+    </LinearLayout>
+
+</com.sangfei.keyguard.unlock.KeyguardPhilipsView>
