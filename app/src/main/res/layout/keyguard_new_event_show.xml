@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sangfei.keyguard.unlock.NewEventShowView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/new_event_show_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/kg_unread_mms_view_height"
+    android:paddingLeft="20.0dip"
+    android:paddingRight="20.0dip"
+    android:paddingTop="10.0dip">
+
+    <ImageView
+        android:id="@+id/new_event_img"
+        android:layout_width="32.0dip"
+        android:layout_height="32.0dip"
+        android:src="@drawable/sf_ic_newevent_smsmms" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10.0dip"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:textColor="#ff000000"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:alpha="0.32"
+                android:textColor="#ff000000"
+                android:textSize="18.0dip" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:alpha="0.48"
+            android:maxLines="2"
+            android:textColor="#ff000000"
+            android:textSize="18.0dip" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6.0dip"
+            android:alpha="0.32"
+            android:text="@string/mms_unread_event_tip"
+            android:textColor="#ff000000"
+            android:textSize="18.0dip" />
+    </LinearLayout>
+</com.sangfei.keyguard.unlock.NewEventShowView>

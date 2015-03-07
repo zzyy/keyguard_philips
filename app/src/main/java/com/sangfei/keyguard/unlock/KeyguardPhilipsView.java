@@ -21,6 +21,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.eastaeon.keyguardtest.R;
 
 @TargetApi(11)
 public class KeyguardPhilipsView extends FrameLayout
@@ -66,16 +69,149 @@ public class KeyguardPhilipsView extends FrameLayout
     private int mMaxVelocity;
     private int mMinVelocity;
 
+    private int mWidgetPagerBottom;
+
+
+    public KeyguardPhilipsView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public KeyguardPhilipsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public KeyguardPhilipsView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+    void init(Context context){
+        Log.d("KeyguardPhilipsView", "init");
+        ViewConfiguration localViewConfiguration = ViewConfiguration.get(context);
+        this.mMaxVelocity = localViewConfiguration.getScaledMaximumFlingVelocity();
+        this.mMinVelocity = localViewConfiguration.getScaledMinimumFlingVelocity();
     }
 
-    public KeyguardPhilipsView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    private ShineTextView mOpenCameraTipTextView;
+    private ShineTextView mUnlockTipTextView;
+    private Vibrator mVibrator;
+    private BackgroundAnimationView mBackgroundView;
+    private NewEventShowView mUnReadEventLayoutView;
+    private PullUnlockView mPullUnlockView;
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        Log.d("KeyguardPhilipsView", "onFinishInflate");
+        this.mDragLayoutView = findViewById(R.id.drag_layout);
+        this.mUnlockTipTextView = ((ShineTextView)findViewById(R.id.unlock_tip));
+        this.mOpenCameraTipTextView = ((ShineTextView)findViewById(R.id.open_camera_tip));
+        this.mArrowView = ((ImageView)findViewById(R.id.arrow));
+        this.mLockIconView = ((ImageView)findViewById(R.id.lock_icon));
+        this.mVibrator = ((Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE));
+        this.mBackgroundView = ((BackgroundAnimationView)findViewById(R.id.background_view));
+        this.mUnReadEventLayoutView = ((NewEventShowView)findViewById(R.id.new_event_show_layout));
+//        this.mUnReadEventLayoutView.setOnNewEvnetListener(this.mOnNewEvnetListener);
+        this.mDragLayoutContainer = findViewById(R.id.drag_layout_container);
+        this.mPullUnlockView = ((PullUnlockView)findViewById(R.id.pull_unlock_view));
+        this.mPullUnlockView.setOnTriggerListener(this.mOnPullUnlockTriggerListener);
+    }
+
+    PullUnlockView.OnTriggerListener mOnPullUnlockTriggerListener = new PullUnlockView.OnTriggerListener()
+    {
+        public void onTrgger()
+        {
+            /*NewEvent localNewEvent = KeyguardPhilipsView.this.mUnReadEventLayoutView.getEvent();
+            if (localNewEvent.type == 1)
+            {
+                KeyguardPhilipsView.this.makeACall(localNewEvent.getNumber());
+                return;
+            }
+            KeyguardPhilipsView.this.sendMessageTo(localNewEvent.getNumber());*/
+        }
+    };
+
+
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        Log.d("KeyguardPhilipsView", "onLayout");
+        if (this.mIsNeedInitLayout){
+            int dragLayoutHeight = mDragLayoutView.getHeight();
+            int unReadEventLayoutViewHeight = this.mUnReadEventLayoutView.getMeasuredHeight();
+            Log.d("KeyguardPhilipsView", "onLayout layoutHeight=" + getHeight() + " dragLayoutHeight=" + dragLayoutHeight + " unReadEventLayoutViewHeight=" + unReadEventLayoutViewHeight);
+
+            int dragLayoutContainerHeight = dragLayoutHeight + unReadEventLayoutViewHeight;
+            if (mDragLayoutContainerHeight != dragLayoutContainerHeight){
+                this.mDragLayoutContainerHeight = dragLayoutContainerHeight;
+                this.mDragLayoutViewDefaultPosition = (getHeight() - this.mDragLayoutContainerHeight);
+                //设置topMargin
+                ((LinearLayout.LayoutParams) mDragLayoutContainer.getLayoutParams()).topMargin = mDragLayoutViewDefaultPosition;
+                mBackgroundView.setBottomHeight(mDragLayoutContainerHeight);
+
+//                saveDragLayoutContainerHeight(this.mDragLayoutContainerHeight);
+            }
+        }
+
+        int[] arrayOfInt = new int[2];
+        getLocationOnScreen(arrayOfInt);
+
+        this.mDragLayoutViewDoAnimationMaxToPPosition = (-(arrayOfInt[1] + this.mDragLayoutView.getHeight() - this.mWidgetPagerBottom));
+        this.mDragLayoutViewDoAnimationMaxBottomPosition = getBottom();
+        Log.d("KeyguardPhilipsView", "mDragLayoutViewDoAnimationMaxToPPosition=" + this.mDragLayoutViewDoAnimationMaxToPPosition + " mDragLayoutViewDoAnimationMaxBottomPosition=" + this.mDragLayoutViewDoAnimationMaxBottomPosition + " mDragLayoutViewDefaultPosition=" + this.mDragLayoutViewDefaultPosition);
+    }
+
+    private VelocityTracker mVelocityTracker;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.mVelocityTracker == null){
+            this.mVelocityTracker = VelocityTracker.obtain();
+        }
+
+        mVelocityTracker.addMovement(event);
+        mVelocityTracker.computeCurrentVelocity(1000, this.mMaxVelocity);
+
+        int velocityY = (int) mVelocityTracker.getYVelocity();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_DOWN");
+                if (!isInDragLayoutView(x, y)){
+
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    private boolean isInDragLayoutView(int paramInt1, int paramInt2)
+    {
+        if (this.mDragLayoutView == null)
+            return false;
+        int i = this.mDragLayoutView.getLeft() + this.mDragLayoutContainer.getLeft();
+        int j = this.mDragLayoutView.getTop() + this.mDragLayoutContainer.getTop();
+        int k = i + this.mDragLayoutView.getWidth();
+        int m = j + this.mDragLayoutView.getHeight();
+        boolean isInDragLayoytView = false;
+        if (i <= paramInt1)
+        {
+            isInDragLayoytView = false;
+            if (paramInt1 < k)
+            {
+                isInDragLayoytView = false;
+                if (j <= paramInt2)
+                {
+                    isInDragLayoytView = false;
+                    if (paramInt2 < m)
+                        isInDragLayoytView = true;
+                }
+            }
+        }
+        return isInDragLayoytView;
     }
 }

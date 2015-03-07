@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">KeyguardTest</string>
+
+
+    <string name="unlock">Slide down to unlock</string>
+    <string name="open_camera">Slide up to open camera</string>
+    <string name="mms_unread_event_tip">Slide down to reply</string>
 </resources>

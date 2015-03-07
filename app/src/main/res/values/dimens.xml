@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="kg_unlock_drag_layout_height">138dp</dimen>
+    <dimen name="kg_background_animation_view_corner_height">94dp</dimen>
+    <dimen name="kg_unread_mms_view_height">128dp</dimen>
 </resources>

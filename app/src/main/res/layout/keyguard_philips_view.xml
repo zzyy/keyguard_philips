@@ -5,7 +5,7 @@
     android:layout_height="fill_parent" >
 
     <com.sangfei.keyguard.unlock.BackgroundAnimationView
-        android:id="@id/background_view"
+        android:id="@+id/background_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
@@ -17,7 +17,7 @@
         android:orientation="vertical" >
 
         <com.sangfei.keyguard.unlock.PullUnlockView
-            android:id="@id/pull_unlock_view"
+            android:id="@+id/pull_unlock_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
@@ -38,7 +38,7 @@
                 android:src="@drawable/sf_unlock_icon" />
 
             <com.sangfei.keyguard.unlock.ShineTextView
-                android:id="@id/unlock_tip"
+                android:id="@+id/unlock_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -50,7 +50,7 @@
                 android:textSize="24.0dip" />
 
             <com.sangfei.keyguard.unlock.ShineTextView
-                android:id="@id/open_camera_tip"
+                android:id="@+id/open_camera_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
