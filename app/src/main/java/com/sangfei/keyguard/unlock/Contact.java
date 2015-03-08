@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 public class Contact
 {
+    /*
   private static final int CONTACT_METHOD_ID_UNKNOWN = -1;
   public static final int CONTACT_METHOD_TYPE_EMAIL = 2;
   public static final int CONTACT_METHOD_TYPE_PHONE = 1;
@@ -451,6 +452,7 @@ public class Contact
       throw localObject;
     }
   }
+  */
 }
 
 /* Location:           D:\土豆ROM工具箱\classes_dex2jar.jar

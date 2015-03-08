@@ -98,9 +98,8 @@ public class KeyguardPhilipsView extends FrameLayout
     private AnimatorListenerAdapter animatorListen = new AnimatorListenerAdapter() {
         public void onAnimationEnd(Animator paramAnimator) {
             Log.d("KeyguardPhilipsView", "onAnimationEnd");
-            KeyguardPhilipsView.this
-                    .doTriggerAction(KeyguardPhilipsView.this.mTriggerActionSave);
-            KeyguardPhilipsView.this.resetView();
+//            KeyguardPhilipsView.this.doTriggerAction(KeyguardPhilipsView.this.mTriggerActionSave);
+//            KeyguardPhilipsView.this.resetView();
         }
 
         public void onAnimationStart(Animator paramAnimator) {
@@ -130,8 +129,7 @@ public class KeyguardPhilipsView extends FrameLayout
                 Log.d("KeyguardPhilipsView", "TRIGGER_TARGET_PHONE");
                 localIntent.setComponent(new ComponentName("com.android.dialer",
                         "com.mediatek.dialer.calllogex.CallLogActivityEx"));
-//                this.mActivityLauncher.launchActivity(localIntent, false, true,
-                        null, null);
+//                this.mActivityLauncher.launchActivity(localIntent, false, true, null, null);
                 doUnlockAction();
                 return;
             case 4:
@@ -139,8 +137,7 @@ public class KeyguardPhilipsView extends FrameLayout
         Log.d("KeyguardPhilipsView", "TRIGGER_TARGET_SMS");
         localIntent.setComponent(new ComponentName("com.android.mms",
                 "com.android.mms.ui.ConversationList"));
-//        this.mActivityLauncher.launchActivity(localIntent, false, true, null,
-                null);
+//        this.mActivityLauncher.launchActivity(localIntent, false, true, null, null);
         doUnlockAction();
     }
 
@@ -390,10 +387,12 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private boolean isMoveDownEnough(int paramInt1, int paramInt2) {
-        if (Math.abs(paramInt2) > this.mMinVelocity)
+        if (Math.abs(paramInt2) > this.mMinVelocity){
             return true;
-        if (getDragLayoutPosition() - this.mDragLayoutViewDefaultPosition <= this.mDragLayoutMoveFastDownDistances){
+        }
+        if (getDragLayoutPosition() - this.mDragLayoutViewDefaultPosition <= this.mDragLayoutMoveFastDownDistances) {
             return true;
+        }
         if (getDragLayoutPosition() - this.mDragLayoutViewDefaultPosition > this.mDragLayoutMoveSlowDownDistances){
             return true;
         }
