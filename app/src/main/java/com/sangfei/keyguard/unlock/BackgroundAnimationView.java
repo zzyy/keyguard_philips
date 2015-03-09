@@ -1,7 +1,6 @@
 package com.sangfei.keyguard.unlock;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -9,9 +8,8 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.View.MeasureSpec;
 
-import com.eastaeon.keyguardtest.R;
+import com.sangfei.keyguard.R;
 
 public class BackgroundAnimationView extends View
 {
@@ -91,8 +89,3 @@ public class BackgroundAnimationView extends View
     invalidate();
   }
 }
-
-/* Location:           D:\土豆ROM工具箱\classes_dex2jar.jar
- * Qualified Name:     com.sangfei.keyguard.unlock.BackgroundAnimationView
- * JD-Core Version:    0.6.0
- */

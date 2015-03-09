@@ -56,7 +56,7 @@ public class NewEvent
     return (int)(paramNewEvent.date - this.date);
   }
 
-  public Drawable getAvatar(Context paramContext)
+ /* public Drawable getAvatar(Context paramContext)
   {
     if (this.contact != null)
       return this.contact.getAvatar(paramContext);
@@ -89,7 +89,7 @@ public class NewEvent
   {
     if (!TextUtils.isEmpty(this.number))
       this.contact = Contact.get(this.number, false);
-  }
+  }*/
 }
 
 /* Location:           D:\土豆ROM工具箱\classes_dex2jar.jar

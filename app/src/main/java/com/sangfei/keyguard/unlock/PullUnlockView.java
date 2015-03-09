@@ -67,7 +67,7 @@ public class PullUnlockView extends ViewGroup
   @TargetApi(11)
   private void doAnimation(int paramInt1, int paramInt2)
   {
-    this.mAnimator = ObjectAnimator.ofInt(new DragLayoutViewWrap(null), "Position", new int[] { paramInt1, paramInt2 });
+    this.mAnimator = ObjectAnimator.ofInt(new DragLayoutViewWrap(), "Position", new int[] { paramInt1, paramInt2 });
     this.mAnimator.setInterpolator(mDecelerateInterpolator);
     this.mAnimator.setDuration(300L);
     this.mAnimator.addListener(this.animatorListen);
@@ -136,6 +136,8 @@ public class PullUnlockView extends ViewGroup
     setMeasuredDimension(localView.getMeasuredWidth(), localView.getMeasuredHeight());
   }
 
+
+    /*
   public boolean onTouchEvent(MotionEvent paramMotionEvent)
   {
     int i = paramMotionEvent.getActionMasked();
@@ -177,6 +179,9 @@ public class PullUnlockView extends ViewGroup
       requestLayout();
     }
   }
+
+*/
+
 
   public void setOnTriggerListener(OnTriggerListener paramOnTriggerListener)
   {

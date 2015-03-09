@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 @TargetApi(19)
 public class NewEventShowView extends LinearLayout {
-    private static final String TAG = "MmsUnReadEventView";
+    /*private static final String TAG = "MmsUnReadEventView";
     private boolean isHasNewEvent;
     private NewEvent mEvent;
     private ImageView mImageView;
@@ -51,6 +51,8 @@ public class NewEventShowView extends LinearLayout {
     private TextView mTime;
     private TextView mUnReadMessage;
 
+*/
+
     public NewEventShowView(Context paramContext) {
         this(paramContext, null);
     }
@@ -63,6 +65,7 @@ public class NewEventShowView extends LinearLayout {
         super(paramContext, paramAttributeSet, paramInt);
     }
 
+    /*
     private static String formatTimeStampString(Context paramContext, long paramLong, boolean paramBoolean) {
         Time localTime1 = new Time();
         localTime1.set(paramLong);
@@ -181,10 +184,6 @@ public class NewEventShowView extends LinearLayout {
 
     public static abstract interface OnNewEventListener {
         public abstract void notifyNewEvent();
-    }
+    }*/
 }
 
-/* Location:           D:\土豆ROM工具箱\classes_dex2jar.jar
- * Qualified Name:     com.sangfei.keyguard.unlock.NewEventShowView
- * JD-Core Version:    0.6.0
- */
