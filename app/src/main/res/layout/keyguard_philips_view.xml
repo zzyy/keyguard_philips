@@ -17,14 +17,14 @@
         android:background="#ffffffff"
         android:orientation="vertical" >
 
-        <!--<com.sangfei.keyguard.unlock.PullUnlockView
+        <com.sangfei.keyguard.unlock.PullUnlockView
             android:id="@+id/pull_unlock_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
             <include layout="@layout/keyguard_new_event_show" />
 
-        </com.sangfei.keyguard.unlock.PullUnlockView>-->
+        </com.sangfei.keyguard.unlock.PullUnlockView>
 
         <RelativeLayout
             android:id="@+id/drag_layout"

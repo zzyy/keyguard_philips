@@ -16,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sangfei.keyguard.R;
+
 @TargetApi(19)
 public class NewEventShowView extends LinearLayout {
-    /*private static final String TAG = "MmsUnReadEventView";
+    private static final String TAG = "MmsUnReadEventView";
     private boolean isHasNewEvent;
     private NewEvent mEvent;
     private ImageView mImageView;
@@ -26,32 +28,34 @@ public class NewEventShowView extends LinearLayout {
     private MmsUnReadObserver mMmsUnreadObserver;
     private TextView mName;
     private OnNewEventListener mNewEventListener;
+
     MissCallObserver.OnMissCallListener mOnMissCallListener = new MissCallObserver.OnMissCallListener() {
-        public void onNewEvent(NewEvent paramNewEvent) {
-            Log.d("MmsUnReadEventView", "Miss call onNewEvent");
-            NewEventShowView.access$002(NewEventShowView.this, true);
+        public void onNewEvent(NewEvent event) {
+            Log.d(TAG , "Miss call onNewEvent; event=" + event);
+//            NewEventShowView.access$002(NewEventShowView.this, true);
             NewEventShowView.this.notifyNewEvent();
-            NewEventShowView.this.update(paramNewEvent);
+            NewEventShowView.this.update(event);
         }
 
         public void refreshMissCallNumber(int paramInt) {
         }
     };
     MmsUnReadObserver.OnNewMmsListener mOnNewMmsListener = new MmsUnReadObserver.OnNewMmsListener() {
-        public void onNewEvent(NewEvent paramNewEvent) {
-            Log.d("MmsUnReadEventView", "NewMms onNewEvent");
-            NewEventShowView.access$002(NewEventShowView.this, true);
+        public void onNewEvent(NewEvent event) {
+            Log.d(TAG, "NewMms onNewEvent; event=" + event);
+//            NewEventShowView.access$002(NewEventShowView.this, true);
             NewEventShowView.this.notifyNewEvent();
-            NewEventShowView.this.update(paramNewEvent);
+            NewEventShowView.this.update(event);
         }
 
         public void refreshUnReadMmsNumber(int paramInt) {
         }
     };
+
+
     private TextView mTime;
     private TextView mUnReadMessage;
 
-*/
 
     public NewEventShowView(Context paramContext) {
         this(paramContext, null);
@@ -65,34 +69,33 @@ public class NewEventShowView extends LinearLayout {
         super(paramContext, paramAttributeSet, paramInt);
     }
 
-    /*
-    private static String formatTimeStampString(Context paramContext, long paramLong, boolean paramBoolean) {
+    // paramBoolean不知道干嘛的
+    private static String formatTimeStampString(Context context, long date, boolean paramBoolean) {
         Time localTime1 = new Time();
-        localTime1.set(paramLong);
+        localTime1.set(date);
         Time localTime2 = new Time();
         localTime2.setToNow();
-        int i;
+        int formatFlag = DateUtils.FORMAT_NO_NOON_MIDNIGHT |
+                DateUtils.FORMAT_ABBREV_ALL |
+                DateUtils.FORMAT_CAP_AMPM;
         if (localTime1.year != localTime2.year)
-            i = 0x80B00 | 0x15;
-        while (true) {
-            if (paramBoolean)
-                i |= 17;
-            return DateUtils.formatDateTime(paramContext, paramLong, i);
-            if (localTime1.yearDay != localTime2.yearDay) {
-                i = 0x80B00 | 0x11;
-                continue;
-            }
-            i = 0x80B00 | 0x1;
+            formatFlag |= DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE;
+        else if (localTime1.yearDay != localTime2.yearDay){
+            formatFlag |= DateUtils.FORMAT_SHOW_DATE;
+        }else {
+            formatFlag |= DateUtils.FORMAT_SHOW_TIME;
         }
+
+        return DateUtils.formatDateTime(context, date, formatFlag);
     }
 
     private void setMessage(String paramString) {
         if (paramString == null) {
-            this.mUnReadMessage.setVisibility(8);
+            this.mUnReadMessage.setVisibility(View.GONE);
             return;
         }
         this.mUnReadMessage.setText(paramString);
-        this.mUnReadMessage.setVisibility(0);
+        this.mUnReadMessage.setVisibility(View.VISIBLE);
     }
 
     private void setName(String paramString) {
@@ -103,29 +106,35 @@ public class NewEventShowView extends LinearLayout {
         this.mTime.setText(paramString);
     }
 
-    private void update(NewEvent paramNewEvent) {
-        String str1 = paramNewEvent.getName();
-        String str2 = paramNewEvent.getNumber();
-        long l = paramNewEvent.date;
-        int i = paramNewEvent.type;
-        if (TextUtils.isEmpty(str1)) {
-            setName(str2);
-            setTime(formatTimeStampString(getContext(), l, false));
-            if (i == 1)
-                break label85;
-            setMessage(paramNewEvent.getMessage());
-            this.mImageView.setImageResource(R.drawable.sf_ic_newevent_smsmms);
+    private void update(NewEvent event) {
+        String name = event.getName();
+        String number = event.getNumber();
+        long date = event.date;
+        int type = event.type;
+        this.mEvent = event;
+
+        if (null==name || TextUtils.isEmpty(name)){
+            setName(name);
+        }else {
+            setName(number);
         }
-        while (true) {
-            this.mEvent = paramNewEvent;
-            return;
-            setName(str1);
-            break;
-            label85:
-            setMessage(null);
-            this.mImageView.setImageResource(R.drawable.sf_ic_newevent_phone);
+
+        setTime(formatTimeStampString(getContext(), date, false));
+
+        switch (type){
+            case NewEvent.TYPE_CALL:
+                setMessage(null);
+                this.mImageView.setImageResource(R.drawable.sf_ic_newevent_phone);
+                break;
+            case NewEvent.TYPE_MESSAGE_SMS:
+                setMessage(event.getMessage());
+                this.mImageView.setImageResource(R.drawable.sf_ic_newevent_smsmms);
+                break;
         }
+
     }
+
+
 
     public NewEvent getEvent() {
         return this.mEvent;
@@ -140,6 +149,7 @@ public class NewEventShowView extends LinearLayout {
             this.mNewEventListener.notifyNewEvent();
     }
 
+    //注册监听, 对未接电话 短信监听
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.mMmsUnreadObserver = new MmsUnReadObserver(new Handler(), getContext());
@@ -164,13 +174,16 @@ public class NewEventShowView extends LinearLayout {
         this.mName = ((TextView) findViewById(R.id.name));
         this.mTime = ((TextView) findViewById(R.id.time));
         this.mImageView = ((ImageView) findViewById(R.id.new_event_img));
-        setViewVisibility(8);
+        setViewVisibility(View.GONE);
+
+//        NewEvent event = new NewEvent(1,"123", 153458,"asdf", 1);
+//        update(event);
     }
 
-    public void setHeight(int paramInt) {
+    public void setHeight(int height) {
         ViewGroup.LayoutParams localLayoutParams = getLayoutParams();
-        Log.d("MmsUnReadEventView", "getHeight()=" + getHeight() + " height=" + paramInt);
-        localLayoutParams.height = paramInt;
+        Log.d("MmsUnReadEventView", "getHeight()=" + getHeight() + " height=" + height);
+        localLayoutParams.height = height;
         setLayoutParams(localLayoutParams);
     }
 
@@ -184,6 +197,6 @@ public class NewEventShowView extends LinearLayout {
 
     public static abstract interface OnNewEventListener {
         public abstract void notifyNewEvent();
-    }*/
+    }
 }
 

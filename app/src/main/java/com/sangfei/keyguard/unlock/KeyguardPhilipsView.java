@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class KeyguardPhilipsView extends FrameLayout
         init(context);
     }
 
-    void init(Context context){
+    void init(Context context) {
         Log.d("KeyguardPhilipsView", "init");
         ViewConfiguration localViewConfiguration = ViewConfiguration.get(context);
         this.mMaxVelocity = localViewConfiguration.getScaledMaximumFlingVelocity();
@@ -87,6 +88,7 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private ObjectAnimator mUnlockAnimator;
+
     private void startAnimation(int targetPosition) {
         if (this.mUnlockAnimator != null)
             this.mUnlockAnimator.cancel();
@@ -104,8 +106,7 @@ public class KeyguardPhilipsView extends FrameLayout
 
     };
 
-    private void resetView()
-    {
+    private void resetView() {
         //恢复 重新布局
         mHasLoad = false;
         requestLayout();
@@ -167,7 +168,8 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private class DragLayoutViewWrap {
-        private DragLayoutViewWrap() {}
+        private DragLayoutViewWrap() {
+        }
 
         public void setPosition(int paramInt) {
             KeyguardPhilipsView.this.moveDragLayoutViewTo(paramInt);
@@ -175,7 +177,7 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private void moveDragLayoutViewTo(int y) {
-        this.mDragLayoutContainer.layout(this.mDragLayoutContainer.getLeft(),y, this.mDragLayoutContainer.getRight(),this.mDragLayoutContainer.getBottom());
+        this.mDragLayoutContainer.layout(this.mDragLayoutContainer.getLeft(), y, this.mDragLayoutContainer.getRight(), this.mDragLayoutContainer.getBottom());
         setBackGroundViewPosition(y);
         setBackGroundAlpha(y);
     }
@@ -183,10 +185,11 @@ public class KeyguardPhilipsView extends FrameLayout
     private void setBackGroundViewPosition(int top) {
         int kg_background_animation_view_corner_height = (int) getContext().getResources().getDimension(R.dimen.kg_background_animation_view_corner_height);
         if (this.mDragLayoutViewDefaultPosition - kg_background_animation_view_corner_height < top
-                && top <= this.mDragLayoutViewDefaultPosition){
+                && top <= this.mDragLayoutViewDefaultPosition) {
             this.mBackgroundView.setPosition(top);
         }
     }
+
     private void setBackGroundAlpha(int paramInt) {
         int[] arrayOfInt = new int[2];
         this.mDragLayoutView.getLocationOnScreen(arrayOfInt);
@@ -214,47 +217,76 @@ public class KeyguardPhilipsView extends FrameLayout
 
         Log.d("KeyguardPhilipsView", "onFinishInflate");
         this.mDragLayoutView = findViewById(R.id.drag_layout);
-        this.mUnlockTipTextView = ((ShineTextView)findViewById(R.id.unlock_tip));
-        this.mOpenCameraTipTextView = ((ShineTextView)findViewById(R.id.open_camera_tip));
-        this.mArrowView = ((ImageView)findViewById(R.id.arrow));
-        this.mLockIconView = ((ImageView)findViewById(R.id.lock_icon));
-        this.mVibrator = ((Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE));
-        this.mBackgroundView = ((BackgroundAnimationView)findViewById(R.id.background_view));
-        this.mUnReadEventLayoutView = ((NewEventShowView)findViewById(R.id.new_event_show_layout));
-//        this.mUnReadEventLayoutView.setOnNewEvnetListener(this.mOnNewEvnetListener);
+        this.mUnlockTipTextView = ((ShineTextView) findViewById(R.id.unlock_tip));
+        this.mOpenCameraTipTextView = ((ShineTextView) findViewById(R.id.open_camera_tip));
+        this.mArrowView = ((ImageView) findViewById(R.id.arrow));
+        this.mLockIconView = ((ImageView) findViewById(R.id.lock_icon));
+        this.mVibrator = ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE));
+        this.mBackgroundView = ((BackgroundAnimationView) findViewById(R.id.background_view));
         this.mDragLayoutContainer = findViewById(R.id.drag_layout_container);
-//        this.mPullUnlockView = ((PullUnlockView)findViewById(R.id.pull_unlock_view));
-//        this.mPullUnlockView.setOnTriggerListener(this.mOnPullUnlockTriggerListener);
+
+        this.mPullUnlockView = ((PullUnlockView)findViewById(R.id.pull_unlock_view));
+        this.mPullUnlockView.setOnTriggerListener(this.mOnPullUnlockTriggerListener);
+        this.mUnReadEventLayoutView = ((NewEventShowView) findViewById(R.id.new_event_show_layout));
+        this.mUnReadEventLayoutView.setOnNewEvnetListener(this.mOnNewEvnetListener);
     }
 
-    PullUnlockView.OnTriggerListener mOnPullUnlockTriggerListener = new PullUnlockView.OnTriggerListener()
+    //有新消息后更新数据
+    NewEventShowView.OnNewEventListener mOnNewEvnetListener = new NewEventShowView.OnNewEventListener()
     {
-        public void onTrgger()
+        public void notifyNewEvent()
         {
-            /*NewEvent localNewEvent = KeyguardPhilipsView.this.mUnReadEventLayoutView.getEvent();
+//            if (KeyguardPhilipsView.this.isEnableKeyguardNewEvent())
+//            {
+//                if (KeyguardPhilipsView.this.getLastWidgetPage() == 0)
+                    KeyguardPhilipsView.this.mUnReadEventLayoutView.setVisibility(View.VISIBLE);
+//            }
+//            else{
+//                KeyguardPhilipsView.this.mUnReadEventLayoutView.setVisibility(View.GONE);
+//            }
+        }
+    };
+
+    //消息下拉回调
+    PullUnlockView.OnTriggerListener mOnPullUnlockTriggerListener = new PullUnlockView.OnTriggerListener() {
+        public void onTrgger() {
+            NewEvent localNewEvent = KeyguardPhilipsView.this.mUnReadEventLayoutView.getEvent();
             if (localNewEvent.type == 1)
             {
                 KeyguardPhilipsView.this.makeACall(localNewEvent.getNumber());
                 return;
             }
-            KeyguardPhilipsView.this.sendMessageTo(localNewEvent.getNumber());*/
+            KeyguardPhilipsView.this.sendMessageTo(localNewEvent.getNumber());
         }
     };
-
+    //电话
+    private void makeACall(String paramString) {
+        Intent localIntent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + paramString));
+        //todo
+//        this.mActivityLauncher.launchActivity(localIntent, false, true, null, null);
+        doUnlockAction();
+    }
+    //短信
+    private void sendMessageTo(String paramString) {
+        Intent localIntent = new Intent("android.intent.action.SENDTO", Uri.parse("smsto:" + paramString));
+        //todo
+//        this.mActivityLauncher.launchActivity(localIntent, false, true, null, null);
+        doUnlockAction();
+    }
 
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         Log.d("KeyguardPhilipsView", "onLayout");
-        if (! this.mHasLoad){
+        if (!this.mHasLoad) {
             int dragLayoutHeight = mDragLayoutView.getHeight();
-//            int unReadEventLayoutViewHeight = this.mUnReadEventLayoutView.getMeasuredHeight();
-            int unReadEventLayoutViewHeight = 0;
+            int unReadEventLayoutViewHeight = this.mUnReadEventLayoutView.getMeasuredHeight();
+//            int unReadEventLayoutViewHeight = 0;
             Log.d("KeyguardPhilipsView", "onLayout layoutHeight=" + getHeight() + " dragLayoutHeight=" + dragLayoutHeight + " unReadEventLayoutViewHeight=" + unReadEventLayoutViewHeight);
 
             int dragLayoutContainerHeight = dragLayoutHeight + unReadEventLayoutViewHeight;
-            if (mDragLayoutContainerHeight != dragLayoutContainerHeight){
+            if (mDragLayoutContainerHeight != dragLayoutContainerHeight) {
                 this.mDragLayoutContainerHeight = dragLayoutContainerHeight;
                 this.mDragLayoutViewDefaultPosition = (getHeight() - this.mDragLayoutContainerHeight);
                 //设置topMargin
@@ -281,28 +313,28 @@ public class KeyguardPhilipsView extends FrameLayout
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.d("KeyguardPhilipsView", "onInterceptTouchEvent x="
-                + ev.getX() + " y=" + ev.getY() +" getAction="+  ev.getAction());
+                + ev.getX() + " y=" + ev.getY() + " getAction=" + ev.getAction());
 
-        switch (ev.getAction()){
+        switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.d("KeyguardPhilipsView", "onInterceptTouchEvent ACTION_DOWN");
                 int x = (int) ev.getX();
                 int y = (int) ev.getY();
-                if (isInDragLayoutView(x,y)){
+                if (isInDragLayoutView(x, y)) {
                     this.mDragging = true;
                     Log.d("KeyguardPhilipsView", "onInterceptTouchEvent ACTION_DOWN ====== mDragging=" + mDragging);
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (this.mDragging){
+                if (this.mDragging) {
                     Log.d("KeyguardPhilipsView", "onInterceptTouchEvent ACTION_MOVE");
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (mDragging){
+                if (mDragging) {
                     Log.d("KeyguardPhilipsView", "onInterceptTouchEvent ACTION_CANCEL");
                     return true;
                 }
@@ -315,7 +347,7 @@ public class KeyguardPhilipsView extends FrameLayout
     public boolean onTouchEvent(MotionEvent event) {
 
         int velocityY = -1;
-        if (this.mVelocityTracker == null){
+        if (this.mVelocityTracker == null) {
             this.mVelocityTracker = VelocityTracker.obtain();
         }
         mVelocityTracker.addMovement(event);
@@ -324,9 +356,9 @@ public class KeyguardPhilipsView extends FrameLayout
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (isInDragLayoutView(x, y)){
+                if (isInDragLayoutView(x, y)) {
                     Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_DOWN");
                     this.mGestureStartX = x;
                     this.mGestureStartY = y;
@@ -336,8 +368,8 @@ public class KeyguardPhilipsView extends FrameLayout
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_MOVE  mGestureStartDragLayoutTop=" +mGestureStartDragLayoutTop);
-                if (this.mDragging){
+                Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_MOVE  mGestureStartDragLayoutTop=" + mGestureStartDragLayoutTop);
+                if (this.mDragging) {
                     moveDragLayoutViewTo(y - this.mGestureStartY + this.mDragLayoutContainer.getTop());
                     showUnlockTip();
 
@@ -379,15 +411,15 @@ public class KeyguardPhilipsView extends FrameLayout
 
     private void handleDragLayoutViewMoveComplete(int x, int y, int velocityY) {
         int targetAnimationPosition = 0;
-        if (velocityY < - mMinVelocity || mDragLayoutContainer.getTop() < this.mDragLayoutViewDefaultPosition/2){
+        if (velocityY < -mMinVelocity || mDragLayoutContainer.getTop() < this.mDragLayoutViewDefaultPosition / 2) {
             targetAnimationPosition = this.mDragLayoutViewDoAnimationMaxToPPosition;
             this.mTriggerAction = 2;
             Log.d("KeyguardPhilipsView", "set TRIGGER_TARGET_CAMERA");
-        }else if (velocityY > mMinVelocity ){
+        } else if (velocityY > mMinVelocity) {
             targetAnimationPosition = this.mDragLayoutViewDoAnimationMaxBottomPosition;
             this.mTriggerAction = 1;
             Log.d("KeyguardPhilipsView", "set TRIGGER_TARGET_UNLOCK");
-        }else {
+        } else {
             targetAnimationPosition = this.mDragLayoutViewDefaultPosition;
         }
         startAnimation(targetAnimationPosition);
@@ -404,8 +436,7 @@ public class KeyguardPhilipsView extends FrameLayout
         return this.mDragLayoutContainer.getTop();
     }
 
-    private boolean isInDragLayoutView(int paramInt1, int paramInt2)
-    {
+    private boolean isInDragLayoutView(int paramInt1, int paramInt2) {
         if (this.mDragLayoutView == null)
             return false;
         int i = this.mDragLayoutView.getLeft() + this.mDragLayoutContainer.getLeft();
@@ -413,14 +444,11 @@ public class KeyguardPhilipsView extends FrameLayout
         int k = i + this.mDragLayoutView.getWidth();
         int m = j + this.mDragLayoutView.getHeight();
         boolean isInDragLayoytView = false;
-        if (i <= paramInt1)
-        {
+        if (i <= paramInt1) {
             isInDragLayoytView = false;
-            if (paramInt1 < k)
-            {
+            if (paramInt1 < k) {
                 isInDragLayoytView = false;
-                if (j <= paramInt2)
-                {
+                if (j <= paramInt2) {
                     isInDragLayoytView = false;
                     if (paramInt2 < m)
                         isInDragLayoytView = true;
