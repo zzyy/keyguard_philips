@@ -113,7 +113,7 @@ public class NewEventShowView extends LinearLayout {
         int type = event.type;
         this.mEvent = event;
 
-        if (null==name || TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)){
             setName(name);
         }else {
             setName(number);

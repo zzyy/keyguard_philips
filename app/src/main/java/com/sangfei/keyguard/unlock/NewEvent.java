@@ -62,8 +62,8 @@ public class NewEvent implements Comparable<NewEvent> {
     }
 
     public String getName() {
-//        if (this.contact != null)
-//            return this.contact.getName();
+        if (this.contact != null)
+            return this.contact.getName();
         return null;
     }
 
@@ -72,12 +72,12 @@ public class NewEvent implements Comparable<NewEvent> {
     }
 
     public String toString() {
-        return "[ number:" + this.number + " message:" + this.message + " date:" + this.date + " Contact:" + this.contact + " ]";
+        return "[ number:" + this.number + " message:" + this.message + " date:" + this.date + " Contact:" + this.contact + " Name: "+ this.getName() +" ]";
     }
 
     public void updateContact() {
-//        if (!TextUtils.isEmpty(this.number))
-//            this.contact = Contact.get(this.number, false);
+        if (!TextUtils.isEmpty(this.number))
+            this.contact = Contact.get(this.number, false);
     }
 }
 

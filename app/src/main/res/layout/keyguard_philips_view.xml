@@ -74,7 +74,7 @@
                 android:layout_marginBottom="6.0dip"
                 android:src="@drawable/sf_unlock_down" />
 
-            <!--<com.sangfei.keyguard.unlock.NewEventNumView
+            <com.sangfei.keyguard.unlock.NewEventNumView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -89,7 +89,7 @@
                     android:gravity="center"
                     android:textColor="#ffffffff"
                     android:textSize="12.0dip" />
-            </com.sangfei.keyguard.unlock.NewEventNumView>-->
+            </com.sangfei.keyguard.unlock.NewEventNumView>
         </RelativeLayout>
 
         <FrameLayout

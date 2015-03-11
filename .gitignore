@@ -4,5 +4,16 @@
 .DS_Store
 /build
 
+#idea ignore configration
 /.idea
-/KeyguardTest.iml
+*.iml
+
+#eclipse ignore configration
+.classpath
+.project
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class

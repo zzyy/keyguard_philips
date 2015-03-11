@@ -49,8 +49,7 @@ public class MmsUnReadObserver extends ContentObserver {
         super(paramHandler);
         this.mContext = context;
         this.mCreateTime = System.currentTimeMillis();
-        //TBD
-//        Contact.init(context);
+        Contact.init(context);
     }
 
     private void clearEventByType(int paramInt) {

@@ -114,6 +114,8 @@ public class KeyguardPhilipsView extends FrameLayout
         showUnlockTip();
         if (this.mScrim != null)
             this.mScrim.setAlpha(0.0F);
+
+        mBackgroundView.setBottomHeight(mDragLayoutView.getHeight() + mUnReadEventLayoutView.getHeight());
     }
 
     //打开相应的app
@@ -282,7 +284,6 @@ public class KeyguardPhilipsView extends FrameLayout
         if (!this.mHasLoad) {
             int dragLayoutHeight = mDragLayoutView.getHeight();
             int unReadEventLayoutViewHeight = this.mUnReadEventLayoutView.getMeasuredHeight();
-//            int unReadEventLayoutViewHeight = 0;
             Log.d("KeyguardPhilipsView", "onLayout layoutHeight=" + getHeight() + " dragLayoutHeight=" + dragLayoutHeight + " unReadEventLayoutViewHeight=" + unReadEventLayoutViewHeight);
 
             int dragLayoutContainerHeight = dragLayoutHeight + unReadEventLayoutViewHeight;
@@ -296,7 +297,7 @@ public class KeyguardPhilipsView extends FrameLayout
 //                saveDragLayoutContainerHeight(this.mDragLayoutContainerHeight);
             }
 
-            mHasLoad = true;
+//            mHasLoad = true;
         }
 
         int[] arrayOfInt = new int[2];
@@ -383,10 +384,10 @@ public class KeyguardPhilipsView extends FrameLayout
             case MotionEvent.ACTION_CANCEL:
                 if (this.mDragging) {
                     Log.d("KeyguardPhilipsView", "Velocity=" + velocityY);
+                    resetTouch();
                     handleDragLayoutViewMoveComplete(x, y, velocityY);
                     return true;
                 }
-                resetTouch();
                 break;
         }
 
@@ -394,7 +395,7 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private void showUnlockTip() {
-        if (this.mDragLayoutContainer.getTop() >= this.mDragLayoutViewDefaultPosition) {
+        if (this.mDragLayoutContainer.getTop() +10 >= this.mDragLayoutViewDefaultPosition) {
             this.mOpenCameraTipTextView.setVisibility(View.GONE);
             this.mUnlockTipTextView.setVisibility(View.VISIBLE);
             this.mArrowView.setImageResource(R.drawable.sf_unlock_down);
@@ -436,25 +437,18 @@ public class KeyguardPhilipsView extends FrameLayout
         return this.mDragLayoutContainer.getTop();
     }
 
-    private boolean isInDragLayoutView(int paramInt1, int paramInt2) {
+    private boolean isInDragLayoutView(int x, int y) {
         if (this.mDragLayoutView == null)
             return false;
-        int i = this.mDragLayoutView.getLeft() + this.mDragLayoutContainer.getLeft();
-        int j = this.mDragLayoutView.getTop() + this.mDragLayoutContainer.getTop();
-        int k = i + this.mDragLayoutView.getWidth();
-        int m = j + this.mDragLayoutView.getHeight();
-        boolean isInDragLayoytView = false;
-        if (i <= paramInt1) {
-            isInDragLayoytView = false;
-            if (paramInt1 < k) {
-                isInDragLayoytView = false;
-                if (j <= paramInt2) {
-                    isInDragLayoytView = false;
-                    if (paramInt2 < m)
-                        isInDragLayoytView = true;
-                }
-            }
+        int left = this.mDragLayoutView.getLeft() + this.mDragLayoutContainer.getLeft();
+        int top = this.mDragLayoutView.getTop() + this.mDragLayoutContainer.getTop();
+        int right = left + this.mDragLayoutView.getWidth();
+        int bottom = top + this.mDragLayoutView.getHeight();
+
+        if (x >= left && x <= right && y >= top && y<= bottom){
+            return true;
         }
-        return isInDragLayoytView;
+
+        return false;
     }
 }
