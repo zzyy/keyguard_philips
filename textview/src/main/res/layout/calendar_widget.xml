@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@drawable/c_bg"
+    android:layout_height="200dip">
+
+    <TextView
+        android:id="@+id/calendar_time"
+        style="@style/calendar_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/calendar_date"
+        android:layout_marginLeft="12.0dip"
+        android:layout_marginTop="25.0dip"
+        android:text="@string/calendar" />
+
+    <TextView
+        android:id="@+id/calendar_ampm"
+        style="@style/calendar_ampm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/calendar_time"
+        android:layout_marginBottom="15.0dip"
+        android:layout_marginLeft="12.0dip"
+        android:layout_toRightOf="@+id/calendar_time"
+        android:text="@string/calendar" />
+
+    <LinearLayout
+        android:id="@+id/calendar_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendar_time"
+        android:layout_marginTop="10.0dip"
+        android:orientation="vertical"
+        android:paddingLeft="12.0dip">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/kg_gray"
+            android:textSize="25.0dip" />
+
+        <TextView
+            android:id="@+id/day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/kg_gray"
+            android:textSize="25.0dip" />
+
+        <TextView
+            android:id="@+id/lunar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/kg_gray"
+            android:textSize="15.0sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/alarm_status"
+        android:layout_alignLeft="@id/calendar_time"
+        android:layout_marginBottom="5.0dip"
+        android:src="@drawable/ic_alarm_small"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/alarm_status"
+        style="@style/widget_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/calendar_time"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22.0dip"
+        android:gravity="center_vertical" />
+</RelativeLayout>

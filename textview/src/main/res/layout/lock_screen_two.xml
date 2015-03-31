@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:id="@+id/calendarLayout"
+        android:layout_width="200dp"
+        android:layout_height="222dp"
+        android:background="#E5ED05">
+
+        <com.example.guoxiaolin.testview.DragView
+            android:id="@+id/calendarDragView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff"
+            android:gravity="center_vertical"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="center"
+                android:src="@drawable/sf_calender_icon" />
+
+            <include layout="@layout/calendar_widget" />
+
+        </com.example.guoxiaolin.testview.DragView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/batteryLayout"
+        android:layout_width="118dp"
+        android:layout_height="110dp"
+        android:layout_alignTop="@id/calendarLayout"
+        android:layout_toRightOf="@id/calendarLayout"
+        android:background="#00ff00">
+
+        <com.example.guoxiaolin.testview.DragView
+            android:id="@+id/batteryDragView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <include layout="@layout/calendar_widget" />
+
+        </com.example.guoxiaolin.testview.DragView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/galleryLayout"
+        android:layout_width="118dp"
+        android:layout_height="110dp"
+        android:layout_below="@id/batteryLayout"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@id/calendarLayout"
+        android:background="#ff0000">
+
+        <com.example.guoxiaolin.testview.DragView
+            android:id="@+id/galleryDragView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+            <!--<include layout="@layout/calendar_widget"/>-->
+
+        </com.example.guoxiaolin.testview.DragView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/weatherLayout"
+        android:layout_width="118dp"
+        android:layout_height="200dp"
+        android:layout_alignLeft="@id/calendarLayout"
+        android:layout_below="@id/calendarLayout"
+        android:layout_marginTop="2dp"
+        android:background="#0000ff">
+
+        <com.example.guoxiaolin.testview.DragView
+            android:id="@+id/weatherDragView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+            <!--<include layout="@layout/calendar_widget"/>-->
+
+        </com.example.guoxiaolin.testview.DragView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/musicLayout"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignTop="@id/weatherLayout"
+        android:layout_toRightOf="@id/weatherLayout"
+        android:background="#005050">
+
+        <com.example.guoxiaolin.testview.DragView
+            android:id="@+id/musicDragView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+            <!--<include layout="@layout/calendar_widget"/>-->
+
+        </com.example.guoxiaolin.testview.DragView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

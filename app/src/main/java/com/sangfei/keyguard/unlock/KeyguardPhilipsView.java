@@ -179,7 +179,8 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private void moveDragLayoutViewTo(int y) {
-        this.mDragLayoutContainer.layout(this.mDragLayoutContainer.getLeft(), y, this.mDragLayoutContainer.getRight(), this.mDragLayoutContainer.getBottom());
+        this.mDragLayoutContainer.layout(this.mDragLayoutContainer.getLeft(), y,
+                this.mDragLayoutContainer.getRight(), this.mDragLayoutContainer.getBottom());
         setBackGroundViewPosition(y);
         setBackGroundAlpha(y);
     }
@@ -363,13 +364,16 @@ public class KeyguardPhilipsView extends FrameLayout
                     Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_DOWN");
                     this.mGestureStartX = x;
                     this.mGestureStartY = y;
+
+                    moveDragLayoutViewTo(-50 + this.mDragLayoutContainer.getTop());
+
                     this.mGestureStartDragLayoutTop = getDragLayoutPosition();
                     this.mDragging = true;
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_MOVE  mGestureStartDragLayoutTop=" + mGestureStartDragLayoutTop);
+                Log.d("KeyguardPhilipsView", "onTouchEvent ACTION_MOVE  this.mDragLayoutContainer.getTop()=" + this.mDragLayoutContainer.getTop() + "  mDragging="+mDragging);
                 if (this.mDragging) {
                     moveDragLayoutViewTo(y - this.mGestureStartY + this.mDragLayoutContainer.getTop());
                     showUnlockTip();
@@ -395,7 +399,7 @@ public class KeyguardPhilipsView extends FrameLayout
     }
 
     private void showUnlockTip() {
-        if (this.mDragLayoutContainer.getTop() +10 >= this.mDragLayoutViewDefaultPosition) {
+        if (this.mDragLayoutContainer.getTop()  > this.mDragLayoutViewDefaultPosition) {
             this.mOpenCameraTipTextView.setVisibility(View.GONE);
             this.mUnlockTipTextView.setVisibility(View.VISIBLE);
             this.mArrowView.setImageResource(R.drawable.sf_unlock_down);

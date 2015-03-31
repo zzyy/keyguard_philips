@@ -3,7 +3,12 @@
     android:id="@+id/keyguard_philips_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff24c659">
+    >
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        layout="@layout/keyguard_metro_frame2" />
 
     <com.sangfei.keyguard.unlock.BackgroundAnimationView
         android:id="@+id/background_view"

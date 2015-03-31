@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+<com.example.guoxiaolin.testview.WidgetFrameView
+    android:id="@+id/widgetFrameLayout"
+    android:background="@android:color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
+        android:id="@+id/calendarLayout"
+        android:background="#E5ED05"
+        android:layout_width="200dp"
+        android:layout_height="222dp">
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/batteryLayout"
+        android:layout_width="118dp"
+        android:background="#00ff00"
+        android:layout_height="110dp">
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/galleryLayout"
+        android:background="#ff0000"
+        android:layout_width="118dp"
+        android:layout_marginTop="112dp"
+        android:layout_height="110dp">
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/weatherLayout"
+        android:layout_marginTop="224dp"
+        android:layout_width="118dp"
+        android:background="#0000ff"
+        android:layout_height="200dp">
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/musicLayout"
+        android:layout_marginTop="224dp"
+        android:layout_width="200dp"
+        android:background="#005050"
+        android:layout_height="200dp">
+    </RelativeLayout>
+
+    </com.example.guoxiaolin.testview.WidgetFrameView>
+
+</RelativeLayout>
